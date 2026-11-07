@@ -1,0 +1,15 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Hasil generate (kalau user simpan hasil unduhan di folder ini)
+*.log

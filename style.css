@@ -1,0 +1,293 @@
+/* ============================================================================
+ * style.css — Text Repetition Generator
+ * Tema: Putih & Ungu (Light Theme) — sesuai spec Plans.md §4
+ * ========================================================================== */
+
+:root {
+  --bg-page: #F8F9FA;          /* abu-abu sangat muda */
+  --bg-card: #FFFFFF;          /* putih bersih */
+  --primary: #7C3AED;          /* ungu utama */
+  --primary-hover: #6D28D9;    /* ungu lebih gelap */
+  --primary-soft: #EDE9FE;     /* ungu sangat muda (hover tombol ghost) */
+  --text-main: #1F2937;        /* abu-abu tua */
+  --text-muted: #6B7280;       /* abu-abu sekunder */
+  --border-input: #D1D5DB;     /* border input */
+  --track: #E5E7EB;            /* track progress bar */
+  --status-success: #059669;
+  --status-cancel: #D97706;
+  --status-error: #DC2626;
+  --shadow-card: 0 10px 30px rgba(124, 58, 237, 0.08), 0 2px 8px rgba(17, 24, 39, 0.06);
+  --radius-card: 12px;
+  --radius-input: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+body.is-generating {
+  cursor: progress;
+}
+
+/* ------------------------------------------------------------------- Card */
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 32px 28px;
+}
+
+.card__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.card__subtitle {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------- Form */
+.form {
+  margin-top: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field__label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.field__label .optional {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+textarea,
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background: #FFFFFF;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-input);
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+/* Border berubah ungu saat focus (spec §4) */
+textarea:focus,
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #9CA3AF;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* --------------------------------------------------- Estimated size & hint */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.meta strong {
+  color: var(--primary);
+  font-size: 0.9rem;
+}
+
+.warning {
+  color: var(--status-error);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------ Progress bar */
+.progress {
+  background: var(--track);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+/* ------------------------------------------------------------------ Status */
+.statusline {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.status {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status[data-status="idle"]      { color: var(--text-muted); }
+.status[data-status="generating"]{ color: var(--primary); }
+.status[data-status="completed"] { color: var(--status-success); }
+.status[data-status="cancelled"] { color: var(--status-cancel); }
+.status[data-status="error"]     { color: var(--status-error); }
+
+.status-message {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  min-height: 1em;
+}
+
+.status-message.is-error {
+  color: var(--status-error);
+}
+
+/* ----------------------------------------------------------------- Buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: var(--radius-input);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.05s ease,
+    opacity 0.15s ease;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Generate & Download: ungu + teks putih (spec §4) */
+.btn--primary {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+/* Cancel: putih + border ungu + teks ungu (spec §4) */
+.btn--ghost {
+  background: #FFFFFF;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--primary-soft);
+}
+
+/* -------------------------------------------------------------------- Note */
+.note {
+  margin-top: 20px;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------- Responsive */
+@media (max-width: 480px) {
+  body {
+    padding: 16px 12px;
+  }
+
+  .card {
+    padding: 24px 20px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress__fill,
+  .btn,
+  textarea,
+  input {
+    transition: none;
+  }
+}

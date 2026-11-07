@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="Tool client-side untuk meng-generate file teks berulang berukuran besar dan mengunduhnya tanpa membuat browser freeze." />
+  <link rel="icon" href="data:," />
+  <title>Text Repetition Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1 class="card__title">Text Repetition Generator</h1>
+    <p class="card__subtitle">
+      Generate file teks berulang berukuran besar, langsung dari browser &mdash;
+      tanpa server, tanpa rendering DOM.
+    </p>
+
+    <form id="generator-form" class="form" novalidate>
+      <div class="field">
+        <label class="field__label" for="text-input">Teks</label>
+        <textarea
+          id="text-input"
+          name="text"
+          placeholder="Teks yang mau diulang, misal: aku cinta Indonesia "
+          autocomplete="off"
+          spellcheck="false"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label class="field__label" for="count-input">Jumlah Pengulangan</label>
+          <input
+            id="count-input"
+            name="count"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            step="1"
+            placeholder="1000"
+            value="1000"
+            autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="separator-input">
+            Separator <span class="optional">(opsional)</span>
+          </label>
+          <input
+            id="separator-input"
+            name="separator"
+            type="text"
+            placeholder="misal: , atau \n (baris baru)"
+            autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="filename-input">Nama File</label>
+        <input
+          id="filename-input"
+          name="filename"
+          type="text"
+          placeholder="result.txt"
+          value="result.txt"
+          autocomplete="off"
+          spellcheck="false" />
+      </div>
+
+      <div class="meta">
+        <span>Estimated size: <strong id="size-value">0 B</strong></span>
+        <span id="hint" class="warning" hidden></span>
+      </div>
+
+      <div
+        class="progress"
+        id="progress-bar"
+        role="progressbar"
+        aria-labelledby="status-label"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0">
+        <div class="progress__fill" id="progress-fill"></div>
+      </div>
+
+      <div class="statusline">
+        <span class="status" id="status-label" data-status="idle">idle</span>
+        <span class="status-message" id="status-message" aria-live="polite"></span>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="generate-btn" class="btn btn--primary">
+          Generate &amp; Download
+        </button>
+        <button type="button" id="cancel-btn" class="btn btn--ghost" disabled>
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <p class="note">
+      Catatan: proses berjalan 100% di browser (client-side). Hasil generate tidak
+      dirender ke halaman &mdash; langsung dikonversi menjadi file dan diunduh.
+      Hindari jumlah pengulangan ekstrem (soft-limit 50 juta karakter) agar browser
+      tidak kehabisan memori. Estimasi ukuran dihitung per karakter; file dengan
+      emoji/karakter non-Latin bisa lebih besar saat tersimpan (UTF-8).
+    </p>
+
+    <noscript>
+      <p class="note warning">JavaScript harus aktif untuk memakai tool ini.</p>
+    </noscript>
+  </main>
+
+  <!-- Urutan penting: utils → worker → app (app bergantung pada dua modul sebelumnya) -->
+  <script src="utils.js" defer></script>
+  <script src="worker.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

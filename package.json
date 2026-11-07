@@ -1,0 +1,9 @@
+{
+  "name": "text-repetition-generator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Client-side Text Repetition & Download Generator (vanilla JS, Web Worker)",
+  "scripts": {
+    "test": "node tests/run_tests.js"
+  }
+}
